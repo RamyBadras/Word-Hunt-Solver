@@ -3,59 +3,8 @@ from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QApplication, QMainWindow, QDesktopWidget, QLineEdit, QVBoxLayout, QWidget, QGridLayout, QLabel
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont
+from Trie import Trie
 import sys
-
-class TrieNode:
-    def __init__(self):
-        self.children = [None] * 26
-        self.isEndOfWord = False
-    
-class Trie:
-     
-    # Trie data structure class
-    def __init__(self):
-        self.root = self.getNode()
- 
-    def getNode(self):
-        return TrieNode()
- 
-    def _charToIndex(self,ch):
-        return ord(ch)-ord('A')
- 
- 
-    def insert(self,key):
-         
-        pCrawl = self.root
-        length = len(key)
-        for level in range(length):
-            index = self._charToIndex(key[level])
- 
-            if not pCrawl.children[index]:
-                pCrawl.children[index] = self.getNode()
-            pCrawl = pCrawl.children[index]
-
-        pCrawl.isEndOfWord = True
- 
-    def search(self, key):
-         
-        pCrawl = self.root
-        length = len(key)
-        for level in range(length):
-            index = self._charToIndex(key[level])
-            if not pCrawl.children[index]:
-                return False
-            pCrawl = pCrawl.children[index]
-        return pCrawl.isEndOfWord
-        
-    def isPromising(self, key): # Added a function to check if given characters are prefixes of a word in Trie.
-        pCrawl = self.root
-        length = len(key)
-        for level in range(length):
-            index = self._charToIndex(key[level])
-            if not pCrawl.children[index]:
-                return False
-            pCrawl = pCrawl.children[index]
-        return True 
 
 def traverse(i, j, word, usedCoordinates, trie, answers, grid):
 
@@ -127,7 +76,7 @@ def checkInput(input):
     return True
 
 def solve(letters):
-    with (open("/Users/ramygad/Vs Code/Word Hunt/processedDictionary.txt", "r")) as f:
+    with (open("processedDictionary.txt", "r")) as f:
             dictionary = f.read().splitlines()
     
     trie = Trie()
@@ -285,3 +234,4 @@ if __name__ == '__main__':
 
 
     sys.exit(app.exec_())
+
